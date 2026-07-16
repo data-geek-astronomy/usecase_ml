@@ -70,7 +70,7 @@ def make_pairs(accounts: pd.DataFrame, max_negative: int = 5000) -> pd.DataFrame
 
 
 def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
-    artifact_dir = ensure_dir(Path(output_dir) / "02_similarity_fraud_rings")
+    artifact_dir = ensure_dir(Path(output_dir) / "02_stripe_fraud_ring_detection")
     accounts = make_accounts(max(1200, n_rows // 4))
     pairs = make_pairs(accounts)
     accounts.to_csv(artifact_dir / "synthetic_accounts.csv", index=False)
@@ -96,4 +96,4 @@ def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
     save_model({"model": model, "feature_cols": feature_cols}, artifact_dir / "model.joblib")
     save_json(metrics, artifact_dir / "metrics.json")
     save_json({"clusters": clusters[:20]}, artifact_dir / "detected_clusters_sample.json")
-    return ProjectResult("similarity_fraud_rings", artifact_dir, metrics)
+    return ProjectResult("stripe_fraud_ring_detection", artifact_dir, metrics)

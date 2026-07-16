@@ -5,20 +5,20 @@ from pathlib import Path
 
 from industrial_ml_projects.common import save_json
 from industrial_ml_projects.projects import (
-    distributed_eta,
-    gnn_xgb_fraud,
-    item_availability,
-    llm_relevance,
-    similarity_clustering,
+    dropbox,
+    instacart,
+    nvidia,
+    stripe,
+    uber,
 )
 
 
 PROJECTS = [
-    distributed_eta.run,
-    similarity_clustering.run,
-    item_availability.run,
-    gnn_xgb_fraud.run,
-    llm_relevance.run,
+    uber.run,
+    stripe.run,
+    instacart.run,
+    nvidia.run,
+    dropbox.run,
 ]
 
 
@@ -41,4 +41,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

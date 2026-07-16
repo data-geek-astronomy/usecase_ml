@@ -52,7 +52,7 @@ def make_eta_data(n_rows: int = 8000) -> pd.DataFrame:
 
 
 def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
-    artifact_dir = ensure_dir(Path(output_dir) / "01_distributed_eta_xgboost_style")
+    artifact_dir = ensure_dir(Path(output_dir) / "01_uber_eta_prediction")
     df = make_eta_data(n_rows)
     data_path = artifact_dir / "synthetic_eta_training.csv"
     df.to_csv(data_path, index=False)
@@ -84,4 +84,4 @@ def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
     )
     save_model({"model": model, "columns": list(X.columns)}, artifact_dir / "model.joblib")
     save_json(metrics, artifact_dir / "metrics.json")
-    return ProjectResult("distributed_eta_xgboost_style", artifact_dir, metrics)
+    return ProjectResult("uber_eta_prediction", artifact_dir, metrics)

@@ -59,7 +59,7 @@ def graph_embeddings(df: pd.DataFrame, graph: nx.Graph) -> pd.DataFrame:
 
 
 def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
-    artifact_dir = ensure_dir(Path(output_dir) / "04_gnn_xgb_fraud")
+    artifact_dir = ensure_dir(Path(output_dir) / "04_nvidia_graph_fraud_detection")
     tx, graph = make_transaction_graph(n_rows)
     gfeat = graph_embeddings(tx, graph)
     data = pd.concat([tx[["amount", "velocity_1h", "foreign_ip", "fraud"]], gfeat], axis=1)
@@ -79,4 +79,4 @@ def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
 
     save_model({"model": model, "scaler": scaler, "columns": list(X.columns)}, artifact_dir / "model.joblib")
     save_json(metrics, artifact_dir / "metrics.json")
-    return ProjectResult("gnn_xgb_fraud", artifact_dir, metrics)
+    return ProjectResult("nvidia_graph_fraud_detection", artifact_dir, metrics)

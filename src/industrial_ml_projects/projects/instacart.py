@@ -63,7 +63,7 @@ def threshold_for(row: pd.Series, base_thresholds: dict[int, float]) -> float:
 
 
 def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
-    artifact_dir = ensure_dir(Path(output_dir) / "03_item_availability_rta")
+    artifact_dir = ensure_dir(Path(output_dir) / "03_instacart_item_availability")
     df = make_availability_data(n_rows)
     df.to_csv(artifact_dir / "synthetic_item_availability.csv", index=False)
 
@@ -90,4 +90,4 @@ def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
     save_model({"model": model, "columns": list(X.columns), "base_thresholds": base_thresholds}, artifact_dir / "model.joblib")
     save_json(metrics, artifact_dir / "metrics.json")
     save_json({"base_thresholds": base_thresholds, "example_deltas": {"new_user_bucket": -0.04, "shortage_category_region": 0.06, "promo": 0.03}}, artifact_dir / "threshold_config.json")
-    return ProjectResult("item_availability_rta", artifact_dir, metrics)
+    return ProjectResult("instacart_item_availability", artifact_dir, metrics)

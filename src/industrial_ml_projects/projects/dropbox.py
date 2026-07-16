@@ -58,7 +58,7 @@ def teacher_label(row: pd.Series) -> int:
 
 
 def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
-    artifact_dir = ensure_dir(Path(output_dir) / "05_llm_assisted_relevance")
+    artifact_dir = ensure_dir(Path(output_dir) / "05_dropbox_search_relevance")
     df = make_docs_and_queries(max(250, n_rows // 20))
     df["teacher_label"] = df.apply(teacher_label, axis=1)
     df.to_csv(artifact_dir / "synthetic_query_doc_labels.csv", index=False)
@@ -99,4 +99,4 @@ def run(output_dir: Union[str, Path], n_rows: int = 8000) -> ProjectResult:
     save_model({"model": model, "vectorizer": vectorizer, "feature_columns": list(features.columns)}, artifact_dir / "model.joblib")
     save_json(metrics, artifact_dir / "metrics.json")
     save_json({"prompt_contract": "Use the query, document text, click disagreement, and organizational context to assign a 1-5 relevance label; calibrate against human seed labels before scaling."}, artifact_dir / "labeling_policy.json")
-    return ProjectResult("llm_assisted_relevance", artifact_dir, metrics)
+    return ProjectResult("dropbox_search_relevance", artifact_dir, metrics)
