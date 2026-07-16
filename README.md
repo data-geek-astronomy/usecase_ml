@@ -1,10 +1,11 @@
 ---
-title: Usecase ML
-emoji: 🚀
+title: "Usecase ML"
+emoji: "🚀"
 colorFrom: blue
 colorTo: green
 sdk: gradio
-sdk_version: 4.44.1
+sdk_version: "4.44.1"
+python_version: "3.10"
 app_file: app.py
 pinned: false
 license: mit
@@ -248,4 +249,3 @@ Instacart: [Instacart item availability architecture](https://company.instacart.
 NVIDIA Developer: [Fraud detection with graph neural networks](https://developer.nvidia.com/blog/supercharging-fraud-detection-in-financial-services-with-graph-neural-networks/)
 
 Dropbox Tech: [Improving search relevance with LLM assisted human labeling](https://dropbox.tech/machine-learning/llm-human-labeling-improving-search-relevance-dropbox-dash)
-
