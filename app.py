@@ -6,9 +6,9 @@ def load_readme() -> str:
         return file.read()
 
 
-demo = gr.Markdown(load_readme())
+with gr.Blocks(title="Usecase ML") as demo:
+    gr.Markdown(load_readme())
 
 
 if __name__ == "__main__":
     demo.launch()
-
