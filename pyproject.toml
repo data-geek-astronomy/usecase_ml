@@ -16,6 +16,8 @@ dependencies = [
   "pyyaml>=6.0",
   "huggingface_hub>=0.23,<1.0",
   "gradio==4.44.1",
+  "fastapi==0.112.2",
+  "starlette==0.38.6",
 ]
 
 [tool.setuptools.packages.find]
