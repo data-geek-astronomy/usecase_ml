@@ -346,11 +346,43 @@ def generate(company: str, rows: int):
 
 
 css = """
+html, body, #root, gradio-app, .gradio-container, .main, .app, footer {
+  background: #eef6ff !important;
+}
+body {
+  margin: 0 !important;
+}
+.gradio-container,
+.contain,
+.app,
+main {
+  width: 100% !important;
+}
 .gradio-container {
-  max-width: 1180px !important;
-  margin: 0 auto;
+  max-width: none !important;
+  min-height: 100vh;
+  padding: 0 !important;
   background: linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
   color: #172033;
+}
+.main {
+  max-width: none !important;
+}
+.block {
+  border-color: #d9e5f3 !important;
+}
+.prose, .prose p, .prose li, .prose h1, .prose h2, .prose h3 {
+  color: #172033 !important;
+}
+.wrap {
+  max-width: 100% !important;
+}
+.app-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 24px clamp(18px, 3vw, 42px) 42px;
+  box-sizing: border-box;
 }
 .hero {
   padding: 18px 4px 8px;
@@ -360,9 +392,10 @@ css = """
 .hero p { color: #526070; }
 .demo-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.85fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.85fr);
+  gap: 24px;
   align-items: stretch;
+  width: 100%;
 }
 .visual-card {
   border: 1px solid #d9e5f3;
@@ -389,9 +422,10 @@ css = """
   border: 1px solid #d9e5f3;
   border-radius: 14px;
   padding: 18px;
-  background: linear-gradient(145deg, #ffffff 0%, #edf6ff 100%);
+  background: linear-gradient(145deg, #ffffff 0%, #e9f5ff 100%);
   box-shadow: 0 18px 45px rgba(14, 165, 233, 0.10);
   min-height: 100%;
+  color: #172033 !important;
 }
 .workflow-scene {
   min-height: 300px;
@@ -407,15 +441,17 @@ css = """
   align-items: center;
   padding: 14px 14px;
   border-radius: 14px;
-  color: #172033;
-  background: linear-gradient(135deg, #ffffff 0%, #eaf4ff 100%);
-  border: 1px solid #cfe0f4;
-  box-shadow: 10px 12px 0 rgba(37, 99, 235, 0.10), 0 16px 26px rgba(15, 23, 42, 0.08);
+  color: #172033 !important;
+  background: linear-gradient(135deg, #fefefe 0%, #dbeafe 100%);
+  border: 1px solid #9fc0ee;
+  box-shadow: 12px 14px 0 rgba(37, 99, 235, 0.18), 0 18px 28px rgba(15, 23, 42, 0.12);
   transform: rotateY(-10deg) rotateX(4deg);
 }
 .workflow-step:nth-child(even) {
   transform: rotateY(9deg) rotateX(4deg) translateX(10px);
-  box-shadow: -10px 12px 0 rgba(20, 184, 166, 0.10), 0 16px 26px rgba(15, 23, 42, 0.08);
+  background: linear-gradient(135deg, #fefefe 0%, #ccfbf1 100%);
+  border-color: #91d8cd;
+  box-shadow: -12px 14px 0 rgba(20, 184, 166, 0.18), 0 18px 28px rgba(15, 23, 42, 0.12);
 }
 .workflow-number {
   width: 34px;
@@ -429,6 +465,17 @@ css = """
 }
 .workflow-text {
   font-weight: 700;
+  color: #172033 !important;
+  text-shadow: none;
+}
+.workflow-card *,
+.workflow-step *,
+.workflow-text {
+  color: #172033 !important;
+}
+.workflow-number,
+.workflow-number * {
+  color: #ffffff !important;
 }
 .result-card {
   margin-top: 18px;
@@ -506,24 +553,25 @@ Choose a company inspired project, generate synthetic data, and watch the model 
 </div>
 """
     )
-    with gr.Row():
-        company = gr.Dropdown(choices=list(PROJECTS), value="Uber", label="Choose a project")
-        rows = gr.Slider(500, 3000, value=1000, step=250, label="Synthetic examples to generate")
-    intro = gr.Markdown(intro_markdown("Uber"))
-    run_button = gr.Button(PROJECTS["Uber"]["button"], variant="primary")
-    chart = gr.HTML(empty_chart())
-    outputs = gr.HTML(
-        """
-        <div class="result-card">
-          <div class="section-label">Model output</div>
-          <h3>Ready when you are</h3>
-          <p>Pick a company and click the button. The result summary will stay inside this box.</p>
-        </div>
-        """
-    )
+    with gr.Column(elem_classes=["app-shell"]):
+        with gr.Row():
+            company = gr.Dropdown(choices=list(PROJECTS), value="Uber", label="Choose a project")
+            rows = gr.Slider(500, 3000, value=1000, step=250, label="Synthetic examples to generate")
+        intro = gr.Markdown(intro_markdown("Uber"))
+        run_button = gr.Button(PROJECTS["Uber"]["button"], variant="primary")
+        chart = gr.HTML(empty_chart())
+        outputs = gr.HTML(
+            """
+            <div class="result-card">
+              <div class="section-label">Model output</div>
+              <h3>Ready when you are</h3>
+              <p>Pick a company and click the button. The result summary will stay inside this box.</p>
+            </div>
+            """
+        )
 
-    company.change(update_project, inputs=company, outputs=[intro, run_button])
-    run_button.click(generate, inputs=[company, rows], outputs=[intro, chart, outputs])
+        company.change(update_project, inputs=company, outputs=[intro, run_button])
+        run_button.click(generate, inputs=[company, rows], outputs=[intro, chart, outputs])
 
 
 if __name__ == "__main__":
