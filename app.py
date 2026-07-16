@@ -21,37 +21,50 @@ PROJECTS = {
         "problem": "Uber needs to estimate arrival time before the trip happens. The app has to look at distance, traffic, weather, airport trips, driver supply, and time of day, then give a prediction that feels trustworthy to the rider.",
         "button": "Generate Uber ride data and run the model",
         "workflow": ["Ride request", "Traffic signals", "ETA model", "Arrival estimate"],
+        "image": "assets/company_logos/uber.jpeg",
     },
     "Stripe": {
         "tagline": "Find fraud rings that look separate at first.",
         "problem": "Stripe needs to catch groups of risky merchant accounts. One account may not look obvious by itself, but a group can share bank accounts, devices, IP ranges, email domains, and business patterns.",
         "button": "Generate Stripe account data and find groups",
         "workflow": ["Merchant accounts", "Shared signals", "Similarity model", "Fraud groups"],
+        "image": "assets/company_logos/stripe.jpeg",
     },
     "Instacart": {
         "tagline": "Predict if a grocery item will actually be found.",
         "problem": "Instacart needs to decide what items to show before a shopper reaches the store. If unavailable items are shown too often, customers lose trust. If too many items are hidden, customers lose choice.",
         "button": "Generate Instacart item data and run the model",
         "workflow": ["Customer basket", "Store signals", "Availability model", "Show or hide item"],
+        "image": "assets/company_logos/instacart.png",
     },
     "NVIDIA": {
         "tagline": "Use network patterns to spot financial fraud.",
         "problem": "Financial fraud often appears through shared accounts, cards, and devices. A single transaction row can miss the bigger picture, so the model also looks at how transactions are connected.",
         "button": "Generate NVIDIA graph data and detect fraud",
         "workflow": ["Transactions", "Account graph", "Risk model", "Fraud review"],
+        "image": "assets/company_logos/nvidia.jpg",
     },
     "Dropbox": {
         "tagline": "Improve search results with better labels.",
         "problem": "Dropbox needs search results that bring the best documents to the top. Human labels are useful but expensive, so the workflow starts with a small trusted set and expands it with teacher style labels.",
         "button": "Generate Dropbox search data and train relevance model",
         "workflow": ["Search query", "Human labels", "Teacher labels", "Better ranking"],
+        "image": "assets/company_logos/dropbox.jpeg",
     },
 }
 
 
 def intro_markdown(company: str) -> str:
     item = PROJECTS[company]
-    return f"## {company}: {item['tagline']}\n\n{item['problem']}"
+    return f"""
+<div class="project-intro">
+  <img src="/file={item['image']}" alt="{company} logo" />
+  <div>
+    <h2>{company}: {item['tagline']}</h2>
+    <p>{item['problem']}</p>
+  </div>
+</div>
+"""
 
 
 def empty_chart() -> str:
@@ -190,6 +203,7 @@ def network_svg(title, clusters=5, risky=2) -> str:
 
 def workflow_3d(company: str) -> str:
     steps = PROJECTS[company]["workflow"]
+    image = PROJECTS[company]["image"]
     cards = []
     for idx, step in enumerate(steps, start=1):
         cards.append(
@@ -202,7 +216,13 @@ def workflow_3d(company: str) -> str:
         )
     return f"""
     <div class="workflow-card">
-      <div class="section-label">3D workflow</div>
+      <div class="workflow-heading">
+        <img src="/file={image}" alt="{company} logo" />
+        <div>
+          <div class="section-label">3D workflow</div>
+          <strong>{company} project flow</strong>
+        </div>
+      </div>
       <div class="workflow-scene">
         {''.join(cards)}
       </div>
@@ -390,6 +410,34 @@ main {
 }
 .hero h1 { margin-bottom: 8px; color: #172033; }
 .hero p { color: #526070; }
+.project-intro {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  margin: 16px 0;
+  padding: 18px;
+  border: 1px solid #d9e5f3;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(37, 99, 235, 0.07);
+}
+.project-intro img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #f8fbff;
+  border: 1px solid #e0e9f5;
+}
+.project-intro h2 {
+  margin: 0 0 8px;
+  color: #172033 !important;
+}
+.project-intro p {
+  margin: 0;
+  color: #526070 !important;
+}
 .demo-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.85fr);
@@ -425,6 +473,27 @@ main {
   background: linear-gradient(145deg, #ffffff 0%, #e9f5ff 100%);
   box-shadow: 0 18px 45px rgba(14, 165, 233, 0.10);
   min-height: 100%;
+  color: #172033 !important;
+}
+.workflow-heading {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.workflow-heading img {
+  width: 72px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #d9e5f3;
+  padding: 6px;
+  box-sizing: border-box;
+}
+.workflow-heading strong {
+  display: block;
   color: #172033 !important;
 }
 .workflow-scene {
@@ -534,6 +603,8 @@ button.primary, .primary button {
 }
 @media (max-width: 820px) {
   .demo-layout { grid-template-columns: 1fr; }
+  .project-intro { grid-template-columns: 1fr; }
+  .project-intro img { max-width: 220px; }
   .metric-grid { grid-template-columns: 1fr; }
   .workflow-scene { min-height: auto; }
   .workflow-step, .workflow-step:nth-child(even) { transform: none; }
@@ -557,7 +628,7 @@ Choose a company inspired project, generate synthetic data, and watch the model 
         with gr.Row():
             company = gr.Dropdown(choices=list(PROJECTS), value="Uber", label="Choose a project")
             rows = gr.Slider(500, 3000, value=1000, step=250, label="Synthetic examples to generate")
-        intro = gr.Markdown(intro_markdown("Uber"))
+        intro = gr.HTML(intro_markdown("Uber"))
         run_button = gr.Button(PROJECTS["Uber"]["button"], variant="primary")
         chart = gr.HTML(empty_chart())
         outputs = gr.HTML(
@@ -575,4 +646,8 @@ Choose a company inspired project, generate synthetic data, and watch the model 
 
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", 7860)),
+        allowed_paths=[str(ROOT / "assets")],
+    )

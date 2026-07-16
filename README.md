@@ -23,6 +23,8 @@ This project is written for a developer with about four years of machine learnin
 
 ### Uber ETA Prediction
 
+![Uber project image](assets/company_logos/uber.jpeg)
+
 File: `src/industrial_ml_projects/projects/uber.py`
 
 This project predicts ride arrival time using trip distance, city, traffic, weather, airport trips, driver supply, and time based patterns.
@@ -46,6 +48,8 @@ Main outputs:
 * `metrics.json`
 
 ### Stripe Fraud Ring Detection
+
+![Stripe project image](assets/company_logos/stripe.jpeg)
 
 File: `src/industrial_ml_projects/projects/stripe.py`
 
@@ -73,6 +77,8 @@ Main outputs:
 
 ### Instacart Item Availability
 
+![Instacart project image](assets/company_logos/instacart.png)
+
 File: `src/industrial_ml_projects/projects/instacart.py`
 
 This project predicts whether an item will actually be found by a shopper. It uses signals such as category, retailer, region, inventory age, basket size, promotion status, and recent found rate.
@@ -98,6 +104,8 @@ Main outputs:
 
 ### NVIDIA Graph Fraud Detection
 
+![NVIDIA project image](assets/company_logos/nvidia.jpg)
+
 File: `src/industrial_ml_projects/projects/nvidia.py`
 
 This project detects fraud in financial transactions by combining normal transaction features with graph features from shared accounts, cards, and devices.
@@ -121,6 +129,8 @@ Main outputs:
 * `metrics.json`
 
 ### Dropbox Search Relevance
+
+![Dropbox project image](assets/company_logos/dropbox.jpeg)
 
 File: `src/industrial_ml_projects/projects/dropbox.py`
 
@@ -151,6 +161,7 @@ Main outputs:
 industrial_ml_projects/
 ├── README.md
 ├── app.py
+├── assets/company_logos/
 ├── requirements.txt
 ├── pyproject.toml
 ├── Makefile
